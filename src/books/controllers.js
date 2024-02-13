@@ -23,7 +23,25 @@ const getAllBooks = async (req, res) => {
   }
 };
 
+const updateAuthor = async (req, res) => {
+  try {
+    const { title, author } = req.body;
+    const book = await Book.findOne({ where: { title: title } });
+    if (!book) {
+      return res.status(404).json({ message: "Book not found" });
+    }
+    book.author = author;
+    await book.save();
+    res
+      .status(200)
+      .json({ message: "Updated author successfully", book: book });
+  } catch (error) {
+    res.status(500).json({ message: error.message, error: error });
+  }
+};
+
 module.exports = {
   addBook: addBook,
   getAllBooks: getAllBooks,
+  updateAuthor: updateAuthor,
 };
