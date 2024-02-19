@@ -23,7 +23,7 @@ const getAllBooks = async (req, res) => {
   }
 };
 
-const dynamicUpdate = async (req, res) => {
+const dynamicUpdateAuthor = async (req, res) => {
   try {
     const { title, author } = req.body;
     const book = await Book.findOne({ where: { title: title } });
@@ -31,8 +31,8 @@ const dynamicUpdate = async (req, res) => {
     if (author) {
       book.author = author;
     }
-    if (req.body.newTitle) {
-      book.title = req.body.newTitle;
+    if (req.body.newAuthor) {
+      book.title = req.body.newAuthor;
     }
 
     await book.save();
@@ -41,6 +41,26 @@ const dynamicUpdate = async (req, res) => {
     res.status(500).json({ message: error.message, error: error });
   }
 };
+
+// // // COULDNT GET TO WORK
+// const dynamicUpdateTitle = async (req, res) => {
+//   try {
+//     const { author, title } = req.body;
+//     const book = await Book.findOne({ where: { authorname: author } });
+
+//     if (title) {
+//       book.title = title;
+//     }
+//     if (req.body.newTitle) {
+//       book.author = req.body.newTitle;
+//     }
+
+//     await book.save();
+//     res.status(200).json({ message: "Updated book successfully", book: book });
+//   } catch (error) {
+//     res.status(500).json({ message: error.message, error: error });
+//   }
+// };
 
 const deleteBookByTitle = async (req, res) => {
   try {
@@ -90,7 +110,8 @@ const deleteAllBooks = async (req, res) => {
 module.exports = {
   addBook: addBook,
   getAllBooks: getAllBooks,
-  dynamicUpdate: dynamicUpdate,
+  dynamicUpdateAuthor: dynamicUpdateAuthor,
+  dynamicUpdateTitle: dynamicUpdateTitle,
   deleteBookByTitle: deleteBookByTitle,
   deleteAllBooks: deleteAllBooks,
 };
